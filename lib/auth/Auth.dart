@@ -22,7 +22,7 @@ class _Auth extends State<Auth>{
     Text Welcome_text = Text("\n\nWelcome",style: textshape,textAlign: TextAlign.center);
    
     //! =============================================================== Buttons ====================================================
-    AuthButton sigin = AuthButton(label: "SIGN IN",  onTap: (){print("Hellooo");});
+    AuthButton sigin = AuthButton(label: "SIGN IN",  onTap: () => Navigator.pushNamedAndRemoveUntil(context,"/login", (route) => false));
     Inkbutton signup = Inkbutton(label: "SIGN UP",  onTap: (){});
     Column Button_Column = Column(children: [sigin,signup],mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,spacing: 20,);
 

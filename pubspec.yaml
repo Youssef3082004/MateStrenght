@@ -77,13 +77,15 @@ flutter:
     - family: Inter
       fonts:
         - asset: fonts/Inter.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+    - family: Alex
+      fonts:
+        - asset: fonts/Alex.ttf
+    - family: andalus
+      fonts:
+        - asset: fonts/andalus.ttf
+    - family: Pac
+      fonts:
+        - asset: fonts/Pacifico_Regular.ttf
+          
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

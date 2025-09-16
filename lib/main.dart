@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'auth/login.dart';
 import 'auth/Auth.dart';
+import 'auth/login.dart';
+import 'auth/Signup.dart';
 
 void main() {
   runApp(const Myapp());
@@ -24,10 +25,12 @@ class _Myapp extends State<Myapp>{
     Map<String,WidgetBuilder> routes = {
       "/auth":(context) => Auth(),
       "/login":(context) => Login(),
+      "/signup":(context) => Signup(),
+
     };
    
     ThemeData Animiation = ThemeData(pageTransitionsTheme: PageTransitionsTheme(builders: {TargetPlatform.android:FadeForwardsPageTransitionsBuilder(backgroundColor: Colors.black)}));
-   return MaterialApp(home: Login(),routes:routes,theme: Animiation,);
+   return MaterialApp(home: Auth(),routes:routes,theme: Animiation,);
    
   
   }

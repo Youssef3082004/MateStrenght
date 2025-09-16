@@ -9,8 +9,9 @@ class CustomTextFromFeild extends StatefulWidget{
   final int Trailing_Width; 
   final bool password_or_no;
   final IconData prefiex_icon;
+  final bool forgot_password;
   final TextEditingController controller;
-  const CustomTextFromFeild({super.key,required this.title,required this.prefiex_icon,required this.hint_text,required this.password_or_no,required this.controller,this.Trailing_Width = 0});
+  const CustomTextFromFeild({super.key,required this.title,required this.prefiex_icon,required this.hint_text,required this.password_or_no,this.forgot_password = true,required this.controller,this.Trailing_Width = 0});
 
   @override
   State<CustomTextFromFeild> createState() => _CustomTextFromFeild();
@@ -42,7 +43,7 @@ class _CustomTextFromFeild extends State<CustomTextFromFeild>{
         focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.black,width: 3)),
         enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide(color: Colors.black45,width: 2)),
         suffixIcon: IconButton(icon: Icon(see ? Icons.visibility : Icons.visibility_off),onPressed: () => setState(() {see = !see;}),)
-        ,hint: Text(hint_text),counter:forget,labelText: widget.title,labelStyle: Label_style );
+        ,hint: Text(hint_text),counter:widget.forgot_password? forget:null,labelText: widget.title,labelStyle: Label_style );
       }
 
       else{

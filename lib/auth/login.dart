@@ -40,12 +40,12 @@ class _Login extends State<Login>{
 
     //! =========================================================== Signin Button  ==================================================
 
-    AuthButton sigin_button = AuthButton(label: "SIGN IN", onTap: ()=> print("gggg"));
+    AuthButton sigin_button = AuthButton(label: "SIGN IN", onTap: ()=> print("gggg"),icon_name: Icons.login);
 
 
     //! =========================================================== Sign Up  ==================================================
     Text signup_text = Text("Don't Have an Account?",style: TextStyle(fontFamily: "Alex",fontWeight: FontWeight.w700,fontSize: 20));
-    TextButton signup_button = TextButton(onPressed: (){}, child:Text("SIGN UP",style: TextStyle(color: MainColor.gold.color,fontWeight: FontWeight.w700,fontSize: 20),));
+    TextButton signup_button = TextButton(onPressed: ()=>Navigator.pushNamedAndRemoveUntil(context, "/signup", (route) => false), child:Text("SIGN UP",style: TextStyle(color: MainColor.gold.color,fontWeight: FontWeight.w700,fontSize: 20),));
     Row signup_row = Row(children: [signup_text,signup_button],mainAxisAlignment: MainAxisAlignment.center); 
 
     ListView second_controls = ListView(children: [signin,Inputs,SizedBox(height: 50,),Row(children: [sigin_button],mainAxisAlignment: MainAxisAlignment.center),SizedBox(height: 180,),signup_row],physics: NeverScrollableScrollPhysics());

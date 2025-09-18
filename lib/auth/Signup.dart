@@ -53,7 +53,7 @@ class _Signup extends State<Signup>{
 
     //! =========================================================== Signin Button  ==================================================
 
-    AuthButton Next_button = AuthButton(label: "Next", onTap: ()=> print("gggg"),icon_name: Icons.arrow_forward,right_icon: true);
+    AuthButton Next_button = AuthButton(label: "Next", onTap: ()=>Navigator.pushNamed(context, "/signup2") ,icon_name: Icons.arrow_forward,right_icon: true);
 
 
     //! =========================================================== Sign Up  ==================================================

@@ -10,8 +10,10 @@ class CustomTextFromFeild extends StatefulWidget{
   final bool password_or_no;
   final IconData prefiex_icon;
   final bool forgot_password;
+  final TextInputType keyboardType;
   final TextEditingController controller;
-  const CustomTextFromFeild({super.key,required this.title,required this.prefiex_icon,required this.hint_text,required this.password_or_no,this.forgot_password = true,required this.controller,this.Trailing_Width = 0});
+  final bool readonly;
+  const CustomTextFromFeild({super.key,required this.title,required this.prefiex_icon,required this.hint_text,required this.password_or_no,this.forgot_password = true,required this.controller,this.Trailing_Width = 0,this.keyboardType = TextInputType.name,this.readonly = false});
 
   @override
   State<CustomTextFromFeild> createState() => _CustomTextFromFeild();
@@ -27,7 +29,7 @@ class _CustomTextFromFeild extends State<CustomTextFromFeild>{
   Widget build(BuildContext context) {
 
     double screen_width = MediaQuery.of(context).size.width;
-    TextFormField textfeild =  TextFormField(decoration: _textfeild_decor(hint_text:widget.hint_text,password:widget.password_or_no ),obscureText:widget.password_or_no == true ? !see :see  ,controller: widget.controller);
+    TextFormField textfeild =  TextFormField(enabled: !widget.readonly,readOnly: false,keyboardType:widget.keyboardType ,decoration: _textfeild_decor(hint_text:widget.hint_text,password:widget.password_or_no ),obscureText:widget.password_or_no == true ? !see :see  ,controller: widget.controller);
     SizedBox Textfeild_dim = SizedBox(child: textfeild,width: screen_width - widget.Trailing_Width);
     return Column(children: [Textfeild_dim],crossAxisAlignment: CrossAxisAlignment.center,mainAxisAlignment: MainAxisAlignment.center,);
   }
@@ -48,6 +50,7 @@ class _CustomTextFromFeild extends State<CustomTextFromFeild>{
 
       else{
         return InputDecoration(prefixIcon: Icon(widget.prefiex_icon),
+          disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: MainColor.gold.color,width: 2)),
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(15),borderSide: BorderSide(color: Colors.black,width: 3)),
           enabledBorder:OutlineInputBorder(borderRadius: BorderRadius.circular(20),borderSide: BorderSide(color: Colors.black45,width: 2))
         ,hint: Text(hint_text),labelText: widget.title,labelStyle: Label_style);

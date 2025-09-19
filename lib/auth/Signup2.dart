@@ -83,7 +83,7 @@ class _Signup2 extends State<Signup2>{
 
     //! =========================================================== main Page Controls ==================================================
 
-    Column Controls = Column(children: [Padding(padding: const EdgeInsets.only(top: 50),child: LoginText),SecondContainer]); 
+    SingleChildScrollView Controls = SingleChildScrollView(child: Column(children: [Padding(padding: const EdgeInsets.only(top: 50),child: LoginText),SecondContainer])); 
     BoxDecoration decoration = BoxDecoration(gradient: LinearGradient(colors: [MainColor.dark.color,MainColor.gold.color],stops:[0,0.9],begin: Alignment.centerLeft,end: Alignment.centerRight));
     Container main_app = Container(child: Controls,decoration: decoration,padding: EdgeInsets.all(0));
     return Scaffold(body: main_app);

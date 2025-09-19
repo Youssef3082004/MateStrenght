@@ -2,7 +2,8 @@ import "package:matestrenght/Widgets/Button.dart";
 import "package:matestrenght/Widgets/Textfeild.dart";
 import "package:flutter/material.dart";
 import "package:matestrenght/Constant/Constants.dart";
-
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 
 
 class Signup extends StatefulWidget{
@@ -17,12 +18,39 @@ class Signup extends StatefulWidget{
 
 class _Signup extends State<Signup>{
 
-  bool Remember = false;
   final email_value =  TextEditingController();
+  final fullname_value =  TextEditingController();
+  final prefixnumber_value =  TextEditingController();
+  final country_value =  TextEditingController();
+  final phone_value =  TextEditingController();
   final password_value =  TextEditingController();
+  final password_confirm_value =  TextEditingController();
+  bool Remember = false;  
+  Map<String, dynamic> numbers = {};
+
+  @override
+  void initState() {
+    loadJson();
+    super.initState();
+
+  }
+
+  @override
+  void dispose() {
+    email_value.dispose();
+    fullname_value.dispose();
+    prefixnumber_value.dispose();
+    country_value.dispose();
+    phone_value.dispose();
+    password_confirm_value.dispose();
+    password_value.dispose();
+    super.dispose();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
+
     double Height = MediaQuery.of(context).size.height;
 
     //! =========================================================== First Container ==================================================
@@ -33,16 +61,17 @@ class _Signup extends State<Signup>{
 
     Row createaccount = Row(children: [Text("Create Account\n",style: const TextStyle(fontFamily:"Inter",fontSize: 24,fontWeight: FontWeight.w800))],mainAxisAlignment: MainAxisAlignment.center,);
     
-    CustomTextFromFeild Fullname = CustomTextFromFeild(hint_text: "Write Your Fullname",password_or_no: false,title: "Fullname",controller:email_value,Trailing_Width:30 ,prefiex_icon: Icons.person);
-    CustomTextFromFeild Email = CustomTextFromFeild(hint_text: "Write Your Email",password_or_no: false,title: "Email",controller:email_value,Trailing_Width:30 ,prefiex_icon: Icons.email,);
+    CustomTextFromFeild Fullname = CustomTextFromFeild(hint_text: "Write Your Fullname",password_or_no: false,title: "Fullname",controller:fullname_value,Trailing_Width:30 ,prefiex_icon: Icons.person);
+    CustomTextFromFeild Email = CustomTextFromFeild(hint_text: "Write Your Email",password_or_no: false,title: "Email",controller:email_value,Trailing_Width:30 ,prefiex_icon: Icons.email,keyboardType: TextInputType.emailAddress,);
     
-    CustomTextFromFeild phonenumber = CustomTextFromFeild(hint_text: "Write Your PhoneNumber",password_or_no: false,title: "PhoneNumber",controller:email_value,Trailing_Width:180 ,prefiex_icon: Icons.phone,);
-    DropdownMenu contries = DropdownMenu(dropdownMenuEntries: [DropdownMenuEntry(value: "hala", label: "hala")],);
-    Row Phone_row = Row(children: [contries,phonenumber],mainAxisAlignment: MainAxisAlignment.center,spacing: 10,);
+    MenuStyle menu_style = MenuStyle(backgroundColor: WidgetStateProperty.all(MainColor.gold.color),side:WidgetStateProperty.all(BorderSide(width: 0)));
+    CustomTextFromFeild phonenumber = CustomTextFromFeild(hint_text: "Without code",password_or_no: false,title: "PhoneNumber",controller:phone_value,Trailing_Width:220 ,prefiex_icon: Icons.phone,keyboardType: TextInputType.number,);
+    DropdownMenu contries = DropdownMenu(menuStyle: menu_style,label:Text("Code",style: TextStyle(fontFamily: "andalus",fontSize: 20,fontWeight: FontWeight.bold,color: MainColor.gold.color)) ,dropdownMenuEntries: [...dropdownValues(values: numbers)],width: 180,menuHeight:350,textAlign: TextAlign.left,leadingIcon:Icon(Icons.public) ,controller: prefixnumber_value,onSelected: (value) => on_select_dropdown(value));
+    Row Phone_row = Row(children: [contries,phonenumber],mainAxisAlignment: MainAxisAlignment.center,spacing: 5);
 
-    CustomTextFromFeild country = CustomTextFromFeild(hint_text: "Write Your Country",password_or_no: false,title: "Country",controller:email_value,Trailing_Width:30 ,prefiex_icon: Icons.flag,);
-    CustomTextFromFeild password = CustomTextFromFeild(hint_text: "Write Your Password",password_or_no: true,forgot_password: false,title: "Password",controller:email_value,Trailing_Width:30 ,prefiex_icon: Icons.lock,);
-    CustomTextFromFeild confirm_password = CustomTextFromFeild(hint_text: "",password_or_no: true,forgot_password: false,title: "Confirm Password",controller: password_value,Trailing_Width:30 ,prefiex_icon: Icons.lock,);
+    CustomTextFromFeild country = CustomTextFromFeild(hint_text: "Write Your Country",password_or_no: false,title: "Country",controller:country_value,Trailing_Width:30 ,prefiex_icon: Icons.flag,readonly: true,);
+    CustomTextFromFeild password = CustomTextFromFeild(hint_text: "Write Your Password",password_or_no: true,forgot_password: false,title: "Password",controller:password_value,Trailing_Width:30 ,prefiex_icon: Icons.lock);
+    CustomTextFromFeild confirm_password = CustomTextFromFeild(hint_text: "",password_or_no: true,forgot_password: false,title: "Confirm Password",controller: password_confirm_value,Trailing_Width:30 ,prefiex_icon: Icons.lock,);
     
     
     Text Chechbox_text = Text("Remeber Me",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),);
@@ -72,6 +101,64 @@ class _Signup extends State<Signup>{
     Container main_app = Container(child: Controls,decoration: decoration,padding: EdgeInsets.all(0));
     return Scaffold(body: main_app);
   }
+
+
+List<DropdownMenuEntry<String>> dropdownValues({required Map<String, dynamic> values}) {
+
+  return values.entries.map((entry){
+    final value = entry.value as List;
+    final String key = entry.key;
+    return DropdownMenuEntry<String>(
+      value: value[0],
+      label: key,
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.white),),
+      leadingIcon: Text("${value[1]}"),
+      labelWidget: Text("${value[0]}",style: const TextStyle(color: Colors.black)),
+    );
+  }).toList();
+}
+
+
+void on_select_dropdown(value) => setState(() {
+  country_value.text = value;
+});
+
+  
+Future<Map<String, dynamic>> readJson() async {
+  final String response = await rootBundle.loadString('data/country.json');
+  final data = json.decode(response) as Map<String, dynamic>;
+  return data;
+}
+
+
+ Future<void> loadJson() async {
+    numbers = await readJson();
+    setState(() {}); 
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 } 
   
 
@@ -80,6 +167,4 @@ class _Signup extends State<Signup>{
 
 
 
-// Text Chechbox_text = Text("Remeber Me",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w800),);
-// Checkbox Remember_me = Checkbox(value: Remember, onChanged: (value) => setState(() {Remember = value!;}));
-// Row Remember_me_row = Row(children: [Remember_me,Chechbox_text],mainAxisAlignment: MainAxisAlignment.center);
+
